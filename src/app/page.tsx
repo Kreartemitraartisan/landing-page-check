@@ -26,7 +26,7 @@ export default function Home() {
     // Auto-check ke webhook n8n
     const checkSurvey = async () => {
       try {
-        const response = await fetch('https://krearteproject.app.n8n.cloud/webhook/tally-survey-respond', {
+        const response = await fetch('https://kreartenew.app.n8n.cloud/webhook/tally-survey-respond', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
