@@ -26,14 +26,15 @@ export default function Home() {
     // Auto-check ke webhook n8n
     const checkSurvey = async () => {
       try {
-        const response = await fetch('https://kreartenew.app.n8n.cloud/webhook/tally-survey-respond', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            query: { invoice_no: invoiceNo }
-          }),
-        });
-
+        const response = await fetch(
+            `https://kreartenew.app.n8n.cloud/webhook/tally-survey-respond?invoice_no=${encodeURIComponent(invoiceNo)}`,
+            {
+                method: 'GET',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+            }
+        );
         const result = await response.json();
 
         if (result.status === 'completed') {
