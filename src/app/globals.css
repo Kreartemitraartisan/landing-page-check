@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Custom teal color utilities */
+.bg-teal-50 {
+  background-color: rgb(240 253 254);
+}
+
+.text-teal-600 {
+  color: rgb(0 102 125);
+}
+
+.text-teal-700 {
+  color: rgb(0 90 110);
+}
+
+.border-teal-600 {
+  border-color: rgb(0 102 125);
+}
+
+.bg-teal-100 {
+  background-color: rgb(204 241 245);
+}
+
+.bg-teal-600 {
+  background-color: rgb(0 102 125);
+}
+
+.hover\:bg-teal-700:hover {
+  background-color: rgb(0 90 110);
+}
