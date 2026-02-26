@@ -18,47 +18,49 @@ export default function Home() {
   useEffect(() => {
     // Validasi params wajib
     if (!invoiceNo) {
-      setStatus('invalid');
-      setMessage('Link tidak valid. Invoice number wajib ada.');
-      return;
+        setStatus('invalid');
+        setMessage('Link tidak valid. Invoice number wajib ada.');
+        return;
     }
 
-    // Auto-check ke webhook n8n
+    // Auto-check ke webhook n8n (GET request)
     const checkSurvey = async () => {
-      try {
+        try {
         const response = await fetch(
             `https://kreartenew.app.n8n.cloud/webhook/tally-survey-respond?invoice_no=${encodeURIComponent(invoiceNo)}`,
             {
-                method: 'GET',
-                headers: {
+            method: 'GET',
+            headers: {
                 'Content-Type': 'application/json',
-                },
+            },
             }
         );
+
         const result = await response.json();
 
         if (result.status === 'completed') {
-          setStatus('completed');
-          setMessage(result.message || 'Anda sudah mengisi survey ini. Terima kasih!');
+            setStatus('completed');
+            setMessage(result.message || 'Anda sudah mengisi survey ini. Terima kasih!');
         } else if (result.status === 'pending') {
-          // Auto redirect ke Tally
-          window.location.href = 'https://tally.so/r/Xx060P';
+            // ✅ Auto redirect ke Tally dengan data pre-filled
+            const tallyUrl = `https://tally.so/r/Xx060P?customer_name=${encodeURIComponent(customerName || '')}&invoice_no=${encodeURIComponent(invoiceNo)}&cs_name=${encodeURIComponent(csName || '')}&referral_code=${encodeURIComponent(referralCode || '')}`;
+            window.location.href = tallyUrl;
         } else if (result.status === 'invalid') {
-          setStatus('invalid');
-          setMessage(result.message || 'Data tidak ditemukan.');
+            setStatus('invalid');
+            setMessage(result.message || 'Data tidak ditemukan.');
         } else {
-          setStatus('error');
-          setMessage(result.message || 'Terjadi kesalahan. Silakan coba lagi.');
+            setStatus('error');
+            setMessage(result.message || 'Terjadi kesalahan. Silakan coba lagi.');
         }
-      } catch (err) {
+        } catch (err) {
         console.error('Survey check error:', err);
         setStatus('error');
         setMessage('Gagal terhubung ke server. Cek koneksi internet Anda.');
-      }
+        }
     };
 
     checkSurvey();
-  }, [invoiceNo]);
+    }, [invoiceNo, customerName, csName, referralCode]);
 
   // Completed state
   if (status === 'completed') {
